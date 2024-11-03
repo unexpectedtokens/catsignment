@@ -17,7 +17,7 @@ new Elysia()
     {
       body: t.Object({
         amount: t.Number({ minimum: 1, maximum: 6 }),
-        breed: t.String({ minLength: 1 }),
+        breed: t.String({ minLength: 1, examples: "siamese" }),
       }),
     }
   )

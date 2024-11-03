@@ -6,6 +6,8 @@
     "dev": "bun --watch src/index.ts",
     "build": "bun build src/index.ts --target bun --outdir ./dist",
     "start": "NODE_ENV=production bun run build && bun dist/index.js",
+    "compose-dev": "docker-compose -f docker-compose.dev.yml up --build",
+    "compose-prod": "docker-compose -f docker-compose.yml up --build",
     "test": "bun test"
   },
   "devDependencies": {

@@ -1,0 +1,30 @@
+# docker-compose.dev.yml
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Fixed port for development
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/mydatabase
+    depends_on:
+      - db
+    volumes:
+      - .:/app # Mounts the current directory to /app in the container
+      - /app/node_modules # Prevents overwriting node_modules
+    command: ["bun", "dev"] # Use bun dev for development
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
