@@ -1,1 +1,1 @@
-abstract class StoreService {}
+export abstract class StoreService {}
