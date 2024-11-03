@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "bun --watch src/index.ts",
     "build": "bun build src/index.ts --target bun --outdir ./dist",
-    "start": "NODE_ENV=production bun dist/index.js",
+    "start": "NODE_ENV=production bun run build && bun dist/index.js",
     "test": "bun test"
   },
   "devDependencies": {
@@ -15,6 +15,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@chneau/elysia-logger": "^1.0.8",
     "@elysiajs/swagger": "^1.1.5",
     "elysia": "^1.1.24"
   }
