@@ -3,6 +3,10 @@ import { CatService, type CatQuery } from "./cat";
 import { StoreService } from "./store";
 
 export abstract class CollageService {
+  static async listCollages(): Promise<Collage[]> {
+    return StoreService.fetchCollageList();
+  }
+
   /**
    * Fetches cat images based on parameters, creates a collage and stores
    * @param {CatQuery} query Query to use to fetch cat photos
@@ -29,6 +33,7 @@ export abstract class CollageService {
       },
       savedPhotos
     );
+
     return collage.id;
   }
 }

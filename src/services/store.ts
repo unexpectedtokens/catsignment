@@ -5,6 +5,14 @@ const db = new PrismaClient();
 
 // For now this will function as the
 export abstract class StoreService {
+  static async fetchCollageList(): Promise<Collage[]> {
+    return db.collage.findMany({
+      include: {
+        photos: {},
+      },
+    });
+  }
+
   /**
    * Stores a collage in pg and returns it with populated id
    * collage {ICollage} The collage to store
@@ -18,7 +26,7 @@ export abstract class StoreService {
       data: {
         name: collage.name,
         description: collage.description,
-        photoOrder: [],
+        photoOrder: photos.map((photo) => photo.id),
 
         photos: {
           connect: photos.map((photo) => ({ id: photo.id })),
