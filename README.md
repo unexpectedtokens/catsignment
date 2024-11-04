@@ -4,7 +4,27 @@
 
 There's two ways to run the application
 
-## With Docker Compose (Recommended)
+## As a standalone process
+
+To generate prisma client code (types and such) run
+
+    bunx prisma generate
+
+Then to setup the the database
+
+    bunx prisma migrate dev --name init
+
+Run
+
+    bun start
+
+or for devevelopment (watch-mode)
+
+    bun dev
+
+This will create a production build and run dist/index.js. Please note that a port, database URL and CAT_API_KEY env vars will need to be provided, as they won't be provided by docker compose.
+
+## With Docker Compose (currently unavailable)
 
 Make sure to provide a CAT_API_KEY env var.
 
@@ -29,11 +49,3 @@ Run
     bun compose-dev
 
 The only difference is that the database url can't be modified and that the bun process will restart on file change (uses package.json `bun dev` command)
-
-## As a standalone process
-
-Run
-
-    bun start
-
-This will create a production build and run dist/index.js. Please note that a port, database URL and CAT_API_KEY env vars will need to be provided, as they won't be provided by docker compose.
