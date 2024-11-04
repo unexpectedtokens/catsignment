@@ -2,9 +2,13 @@ import { logger } from "@chneau/elysia-logger";
 import swagger from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 import { Controller } from "./controllers";
+import dotenv from "dotenv";
 
 // OK to cast to string, Elysia.listen will throw if port wasn't provided
 const port = process.env.PORT as string;
+
+// TODO: remove once containerization is fixed
+dotenv.config();
 
 // Don't add endpoints directly to this instance.
 // Add them via a controller to create predictability about what to find where (http handlers in ./controllers in this example)

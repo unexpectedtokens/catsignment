@@ -13,7 +13,7 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/pg": "^8.11.10",
-    "prisma": "^5.21.1"
+    "prisma": "5.21.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -21,6 +21,8 @@
   "dependencies": {
     "@chneau/elysia-logger": "^1.0.8",
     "@elysiajs/swagger": "^1.1.5",
+    "@prisma/client": "5.21.1",
+    "dotenv": "^16.4.5",
     "elysia": "^1.1.24"
   }
 }

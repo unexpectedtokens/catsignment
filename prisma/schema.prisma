@@ -14,17 +14,17 @@ datasource db {
 }
 
 model Collage {
-  id          Int       @id @default(autoincrement())
-  name        String    @unique
+  id          Int    @id @default(autoincrement())
+  name        String @unique
   description String
-  photoOrder  Int[]     // Array to store photo IDs in the desired order
+  photoOrder  Int[] // Array to store photo IDs in the desired order
 
   // Relation for validation, not necessarily used for order
-  photos      Photo[]   @relation("CollagePhotos")
+  photos Photo[] @relation("CollagePhotos")
 }
 
 model Photo {
-  id      Int       @id @default(autoincrement())
-  url     String    @unique
+  id       Int       @id @default(autoincrement())
+  url      String    @unique
   collages Collage[] @relation("CollagePhotos")
 }
