@@ -1,12 +1,12 @@
 import Elysia, { t } from "elysia";
-import { CatService } from "../services";
+import { CollageService } from "../services/collage";
 
 // For now it makes sense to just have one controller.
 // When the amount of endpoints grows, and the purpose of endpoints starts to differ more, create dedicated controllers (Auth, Crud, Healthcheck etc.)
 export const Controller = new Elysia({ prefix: "/collage" }).post(
   "/",
   async ({ body }) => {
-    const collageID = await CatService.createCatCollage(body);
+    const collageID = await CollageService.createCatCollage(body);
     return { id: collageID };
   },
   {

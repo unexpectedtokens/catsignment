@@ -3,7 +3,7 @@ import type { IPhoto } from "../types";
 import { StoreService } from "./store";
 
 /** Query object for fetching cat photos through */
-type CatQuery = {
+export type CatQuery = {
   /** amount of photos to request */
   amount: number;
   /** Type of cat to create a collage of */
@@ -20,7 +20,12 @@ type CatAPIPhoto = {
 };
 
 export abstract class CatService {
-  private static async fetchCatImages(query: CatQuery): Promise<IPhoto[]> {
+  /**
+   * Fetches cat images from the Cat API based on provided query. Fails if none were found
+   * @param {CatQuery} query
+   * @returns
+   */
+  static async fetchCatImages(query: CatQuery): Promise<IPhoto[]> {
     console.log(`fetching ${query.amount} photos of ${query.breed} cats`);
     const response = await fetch(
       `https://api.thecatapi.com/v1/images/search?limit=${query.amount}&breed_ids=${query.breed}&api_key=${process.env.CAT_API_KEY}`,
@@ -38,32 +43,5 @@ export abstract class CatService {
     return photos.map<IPhoto>((photo) => ({
       url: photo.url,
     }));
-  }
-
-  /**
-   * Fetches cat images based on parameters, creates a collage and stores
-   * @param {CatQuery} query Query to use to fetch cat photos
-   * @returns
-   */
-  static async createCatCollage(query: CatQuery): Promise<number> {
-    const photos = await CatService.fetchCatImages(query);
-
-    const savedPhotos: Photo[] = [];
-    for (const photo of photos) {
-      const savedPhoto = await StoreService.insertPhoto(photo);
-
-      savedPhotos.push(savedPhoto);
-    }
-
-    const timestamp = new Date().getTime();
-    const newCollage: Collage = {
-      name: `${query.breed}-collage-${timestamp}`,
-      description: "",
-      photoOrder: savedPhotos.map((photo) => photo.id!),
-      id: 0,
-    };
-
-    const collage = await StoreService.insertCollage(newCollage, savedPhotos);
-    return collage.id;
   }
 }
