@@ -2,6 +2,11 @@ version: "3.8"
 
 services:
   app:
+    command: >
+      sh -c "
+      bunx prisma migrate dev --name init &&
+      bun start
+      "
     build:
       context: .
       dockerfile: Dockerfile

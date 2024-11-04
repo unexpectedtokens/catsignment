@@ -11,7 +11,9 @@
     "test": "bun test"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/pg": "^8.11.10",
+    "prisma": "^5.21.1"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

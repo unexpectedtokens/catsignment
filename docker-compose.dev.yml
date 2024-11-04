@@ -15,7 +15,13 @@ services:
     volumes:
       - .:/app # Mounts the current directory to /app in the container
       - /app/node_modules # Prevents overwriting node_modules
-    command: ["bun", "dev"] # Use bun dev for development
+    command: >
+      sh -c "
+      bunx prisma migrate dev --name init &&
+      bun dev
+      " # Use bun dev for development, api will restart on filechange
+    env_file:
+      - .env
 
   db:
     image: postgres:15

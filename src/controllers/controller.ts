@@ -2,11 +2,10 @@ import Elysia, { t } from "elysia";
 
 // For now it makes sense to just have one controller.
 // When the amount of endpoints grows, and the purpose of endpoints starts to differ more, create dedicated controllers (Auth, Crud, Healthcheck etc.)
-export const Controller = new Elysia().post(
-  "/collage",
-  (context) => {
-    console.log(context.body);
-    return context.body;
+export const Controller = new Elysia({ prefix: "/collage" }).post(
+  "/",
+  async ({ body }) => {
+    return body;
   },
   {
     body: t.Object({
