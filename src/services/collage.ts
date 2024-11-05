@@ -62,13 +62,14 @@ export abstract class CollageService {
     const collage = await StoreService.insertCollage(
       {
         name: `${query.breed}-collage-${timestamp}`,
-        description: "",
-        photoOrder: savedPhotos.map((photo) => photo.id!),
-        id: 0,
       },
       savedPhotos
     );
 
     return collage.id;
+  }
+
+  static async archiveCollage(id: number) {
+    await StoreService.archiveCollage(id);
   }
 }

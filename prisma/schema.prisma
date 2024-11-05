@@ -21,6 +21,7 @@ model Collage {
 
   // Relation for validation, not necessarily used for order
   photos Photo[] @relation("CollagePhotos")
+  archived DateTime?
 }
 
 model Photo {

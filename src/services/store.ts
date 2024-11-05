@@ -1,7 +1,11 @@
 import type { IPhoto } from "../types";
 import { PrismaClient, type Collage, type Photo } from "@prisma/client";
 import { NotFoundError } from "./errors";
-import type { CollageInfoDTO, CollagePhotosDTO } from "../types/collage/dto";
+import type {
+  CollageInfoDTO,
+  CollageInsertDTO,
+  CollagePhotosDTO,
+} from "../types/collage/dto";
 
 const db = new PrismaClient();
 
@@ -13,7 +17,7 @@ export abstract class StoreService {
    */
   static async fetchCollagePhotos(id: number): Promise<CollagePhotosDTO> {
     const collageData = await db.collage.findFirst({
-      where: { id },
+      where: { id, archived: null },
       select: {
         photos: true,
         photoOrder: true,
@@ -37,6 +41,9 @@ export abstract class StoreService {
         name: true,
         description: true,
       },
+      where: {
+        archived: null,
+      },
     });
   }
 
@@ -46,15 +53,15 @@ export abstract class StoreService {
    * @returns {string} the id of the created collage
    */
   static async insertCollage(
-    collage: Collage,
+    collage: CollageInsertDTO,
     photos: Photo[]
   ): Promise<Collage> {
     return db.collage.create({
       data: {
         name: collage.name,
-        description: collage.description,
+        description: "",
         photoOrder: photos.map((photo) => photo.id),
-
+        archived: null,
         photos: {
           connect: photos.map((photo) => ({ id: photo.id })),
         },
@@ -84,6 +91,7 @@ export abstract class StoreService {
     const collage = await db.collage.findFirst({
       where: {
         id,
+        archived: null,
       },
       select: {
         id: true,
@@ -124,6 +132,17 @@ export abstract class StoreService {
       data: {
         name,
         description,
+      },
+    });
+  }
+
+  static async archiveCollage(id: number) {
+    const now = new Date();
+
+    await db.collage.update({
+      where: { id, archived: null },
+      data: {
+        archived: now,
       },
     });
   }

@@ -8,15 +8,19 @@ export type CollageCreateDTO = {
   breed: string;
 };
 
+/** DTO for creating a new collage */
+export type CollageInsertDTO = {
+  /** Name of the collage */
+  name: string;
+};
+
 /** DTO for transporting basic info */
 export type CollageInfoDTO = {
   /** ID of the collage */
   id: number;
-  /** Name of the collage */
-  name: string;
   /** Description of the collage */
   description: string;
-};
+} & CollageInsertDTO;
 
 /** DTO for transporting photos belonging to a collage */
 export type CollagePhotosDTO = {
