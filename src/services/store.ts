@@ -1,6 +1,7 @@
 import type { IPhoto } from "../types";
 import { PrismaClient, type Collage, type Photo } from "@prisma/client";
 import { NotFoundError } from "./errors";
+import type { CollageInfoDTO } from "../types/collage/dto";
 
 const db = new PrismaClient();
 
@@ -10,10 +11,12 @@ export abstract class StoreService {
    * Fetches list of collages from pg
    * @returns {Promise<Collage[]>}
    */
-  static async fetchCollageList(): Promise<Collage[]> {
+  static async fetchCollageList(): Promise<CollageInfoDTO[]> {
     return db.collage.findMany({
-      include: {
-        photos: {},
+      select: {
+        id: true,
+        name: true,
+        description: true,
       },
     });
   }
@@ -58,10 +61,15 @@ export abstract class StoreService {
    * @param {number} id id of collage to fetch
    * @returns
    */
-  static async getSingleCollage(id: number): Promise<Collage> {
+  static async getSingleCollage(id: number): Promise<CollageInfoDTO> {
     const collage = await db.collage.findFirst({
       where: {
         id,
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
       },
     });
 

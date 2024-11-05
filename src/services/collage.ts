@@ -1,6 +1,7 @@
-import type { Collage, Photo } from "@prisma/client";
-import { CatService, type CatQuery } from "./cat";
+import type { Photo } from "@prisma/client";
+import { CatService } from "./cat";
 import { StoreService } from "./store";
+import type { CollageCreateDTO, CollageInfoDTO } from "../types/collage/dto";
 
 export abstract class CollageService {
   /**
@@ -12,10 +13,19 @@ export abstract class CollageService {
   }
 
   /**
+   * Fetches a single collage from the store
+   * @param {number} id id to query for
+   * @returns {Promise<Collage>}
+   */
+  static async getCollage(id: number): Promise<CollageInfoDTO> {
+    return StoreService.getSingleCollage(id);
+  }
+
+  /**
    * Fetches all collages from the store and returns them
    * @returns {Promise<Collage[]>}
    */
-  static async listCollages(): Promise<Collage[]> {
+  static async listCollages(): Promise<CollageInfoDTO[]> {
     return StoreService.fetchCollageList();
   }
 
@@ -24,7 +34,7 @@ export abstract class CollageService {
    * @param {CatQuery} query Query to use to fetch cat photos
    * @returns {Promise<number>}
    */
-  static async createCatCollage(query: CatQuery): Promise<number> {
+  static async createCatCollage(query: CollageCreateDTO): Promise<number> {
     const photos = await CatService.fetchCatImages(query);
 
     const savedPhotos: Photo[] = [];

@@ -1,14 +1,5 @@
-import type { Collage, Photo } from "@prisma/client";
 import type { IPhoto } from "../types";
-import { StoreService } from "./store";
-
-/** Query object for fetching cat photos through */
-export type CatQuery = {
-  /** amount of photos to request */
-  amount: number;
-  /** Type of cat to create a collage of */
-  breed: string;
-};
+import type { CollageCreateDTO } from "../types/collage/dto";
 
 /** Response body from the cat api */
 type CatAPIPhoto = {
@@ -25,7 +16,7 @@ export abstract class CatService {
    * @param {CatQuery} query
    * @returns
    */
-  static async fetchCatImages(query: CatQuery): Promise<IPhoto[]> {
+  static async fetchCatImages(query: CollageCreateDTO): Promise<IPhoto[]> {
     console.log(`fetching ${query.amount} photos of ${query.breed} cats`);
     const response = await fetch(
       `https://api.thecatapi.com/v1/images/search?limit=${query.amount}&breed_ids=${query.breed}&api_key=${process.env.CAT_API_KEY}`,
