@@ -1,12 +1,31 @@
 import type { IPhoto } from "../types";
 import { PrismaClient, type Collage, type Photo } from "@prisma/client";
 import { NotFoundError } from "./errors";
-import type { CollageInfoDTO } from "../types/collage/dto";
+import type { CollageInfoDTO, CollagePhotosDTO } from "../types/collage/dto";
 
 const db = new PrismaClient();
 
 // For now this will function as the DAL, it would be better to move this to a seperate folder (dal/model etc.). Maybe even to seperate stores for different models
 export abstract class StoreService {
+  /**
+   * Fetches photos and the order they are in
+   * @returns {Promise<CollagePhotosDTO>}
+   */
+  static async fetchCollagePhotos(id: number): Promise<CollagePhotosDTO> {
+    const collageData = await db.collage.findFirst({
+      where: { id },
+      select: {
+        photos: true,
+        photoOrder: true,
+      },
+    });
+
+    if (collageData === null) {
+      throw new NotFoundError();
+    }
+    return collageData;
+  }
+
   /**
    * Fetches list of collages from pg
    * @returns {Promise<Collage[]>}

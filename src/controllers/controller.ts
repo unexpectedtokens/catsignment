@@ -36,6 +36,17 @@ export const Controller = new Elysia({ prefix: "/collage" })
       }),
     }
   )
+  .get(
+    "/:collageid/photos",
+    async ({ params: { collageid } }) => {
+      return CollageService.getCollagePhotos(collageid);
+    },
+    {
+      params: t.Object({
+        collageid: t.Number({ minimum: 1 }),
+      }),
+    }
+  )
   .put(
     "/:collageid",
     async ({ body: { name, description }, params: { collageid } }) => {

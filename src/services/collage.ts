@@ -1,7 +1,11 @@
 import type { Photo } from "@prisma/client";
 import { CatService } from "./cat";
 import { StoreService } from "./store";
-import type { CollageCreateDTO, CollageInfoDTO } from "../types/collage/dto";
+import type {
+  CollageCreateDTO,
+  CollageInfoDTO,
+  CollagePhotosDTO,
+} from "../types/collage/dto";
 
 export abstract class CollageService {
   /**
@@ -19,6 +23,15 @@ export abstract class CollageService {
    */
   static async getCollage(id: number): Promise<CollageInfoDTO> {
     return StoreService.getSingleCollage(id);
+  }
+
+  /**
+   * Fetches all photos in a collage and the order they should be in
+   * @param {number} id id of the collage
+   * @returns {Promise<CollagePhotosDTO>}
+   */
+  static async getCollagePhotos(id: number): Promise<CollagePhotosDTO> {
+    return StoreService.fetchCollagePhotos(id);
   }
 
   /**

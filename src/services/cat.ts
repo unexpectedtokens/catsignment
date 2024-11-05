@@ -1,3 +1,4 @@
+import { NotFoundError } from "elysia";
 import type { IPhoto } from "../types";
 import type { CollageCreateDTO } from "../types/collage/dto";
 
@@ -26,7 +27,7 @@ export abstract class CatService {
     const photos = (await response.json()) as CatAPIPhoto[];
 
     if (!photos.length) {
-      throw new Error("No images found, check query");
+      throw new NotFoundError("No images found, check query");
     }
 
     console.log(`found ${photos.length} photos`);
