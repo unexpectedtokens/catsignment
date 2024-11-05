@@ -3,6 +3,18 @@ import { CatService, type CatQuery } from "./cat";
 import { StoreService } from "./store";
 
 export abstract class CollageService {
+  /**
+   * Updates a collage name and description
+   * @param {number} id id of collage to update
+   */
+  static async updateCollage(id: number, name: string, description: string) {
+    await StoreService.updateCollage(id, name, description);
+  }
+
+  /**
+   * Fetches all collages from the store and returns them
+   * @returns {Promise<Collage[]>}
+   */
   static async listCollages(): Promise<Collage[]> {
     return StoreService.fetchCollageList();
   }
@@ -10,7 +22,7 @@ export abstract class CollageService {
   /**
    * Fetches cat images based on parameters, creates a collage and stores
    * @param {CatQuery} query Query to use to fetch cat photos
-   * @returns
+   * @returns {Promise<number>}
    */
   static async createCatCollage(query: CatQuery): Promise<number> {
     const photos = await CatService.fetchCatImages(query);
