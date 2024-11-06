@@ -45,7 +45,7 @@ or for devevelopment (watch-mode)
 
 ### With Docker Compose (currently unavailable)
 
-I had a working version which broke after implementing Prisma. After wasting a bit too much time trying to fix it, I focused on finishing the app itsels.
+I had a working containerized version which broke after implementing Prisma. Something with a mismatch between generated code for MacOS and Linux (inside the container). After wasting a bit too much time trying to fix it, I focused on finishing the app itself instead.
 
 Make sure to provide a CAT_API_KEY env var.
 
